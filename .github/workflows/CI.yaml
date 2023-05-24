@@ -1,15 +1,14 @@
-name: Check for ${{ env.DEPLOY_KEYWORD }}
+name: Check for deployment keyword
 
 on:
   pull_request:
     types: [closed]
-    
-env:
-  DEPLOY_KEYWORD: "<deploy>"
 
 jobs:
   check-for-deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_KEYWORD: "<deploy>"
 
     steps:
       - name: Checkout code
