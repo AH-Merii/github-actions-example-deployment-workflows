@@ -1,4 +1,4 @@
-name: Check for @deploy
+name: Check for &deploy
 
 on:
   pull_request:
@@ -15,20 +15,24 @@ jobs:
       - name: Check if PR was merged
         if: github.event.pull_request.merged == true
         run: |
-          if [[ "${{ github.event.pull_request.title }}" == *"&deploy:"* ]]; then
-            echo "PR was merged and contains @deploy!"
-            environment=$(echo "${{ github.event.pull_request.title }}" | grep -oP '(?<=&deploy:)[^ ]+')
-            echo "Environment of choice is $environment"
-          elif [[ "${{ github.event.pull_request.body }}" == *"&deploy:"* ]]; then
-            echo "PR was merged and contains &deploy!"
-            environment=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=&deploy:)[^ ]+')
+          function get_environment() {
+            local environment=$(echo "$1" | grep -oP '(?<=&deploy:)[^ ]+')
             if [[ -z "$environment" ]]; then
               echo "No environment specified."
             else
-              echo "Environment of choice is $environment"
-              # Trigger job here
+              echo "$environment"
             fi
+          }
+
+          if [[ "${{ github.event.pull_request.title }}" == *"&deploy:"* ]]; then
+            environment=$(get_environment "${{ github.event.pull_request.title }}")
+          elif [[ "${{ github.event.pull_request.body }}" == *"&deploy:"* ]]; then
+            environment=$(get_environment "${{ github.event.pull_request.body }}")
           else
-            echo "PR was merged but does not contain @deploy."
+            echo "PR was merged but does not contain &deploy."
           fi
-          
+
+          if [[ -n "$environment" ]]; then
+            echo "Environment: $environment"
+            # Trigger job here
+          fi
