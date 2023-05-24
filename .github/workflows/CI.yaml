@@ -1,8 +1,11 @@
-name: Check for &deploy
+name: Check for ${{ env.DEPLOY_KEYWORD }}
 
 on:
   pull_request:
     types: [closed]
+    
+env:
+  DEPLOY_KEYWORD: "<deploy>"
 
 jobs:
   check-for-deploy:
@@ -16,7 +19,7 @@ jobs:
         if: github.event.pull_request.merged == true
         run: |
           function get_environment() {
-            local environment=$(echo "$1" | grep -oP '(?<=&deploy:)[^ ]+')
+            local environment=$(echo "$1" | grep -oP "(?<=${{ env.DEPLOY_KEYWORD }}:)[^ ]+")
             if [[ -z "$environment" ]]; then
               echo "No environment specified."
             else
@@ -24,12 +27,12 @@ jobs:
             fi
           }
 
-          if [[ "${{ github.event.pull_request.title }}" == *"&deploy:"* ]]; then
+          if [[ "${{ github.event.pull_request.title }}" == *"${{ env.DEPLOY_KEYWORD }}:"* ]]; then
             environment=$(get_environment "${{ github.event.pull_request.title }}")
-          elif [[ "${{ github.event.pull_request.body }}" == *"&deploy:"* ]]; then
+          elif [[ "${{ github.event.pull_request.body }}" == *"${{ env.DEPLOY_KEYWORD }}:"* ]]; then
             environment=$(get_environment "${{ github.event.pull_request.body }}")
           else
-            echo "PR was merged but does not contain &deploy."
+            echo "PR was merged but does not contain ${{ env.DEPLOY_KEYWORD }}."
           fi
 
           if [[ -n "$environment" ]]; then
