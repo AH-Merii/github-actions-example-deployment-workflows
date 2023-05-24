@@ -22,7 +22,13 @@ jobs:
           elif [[ "${{ github.event.pull_request.body }}" == *"&deploy:"* ]]; then
             echo "PR was merged and contains &deploy!"
             environment=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=&deploy:)[^ ]+')
-            echo "Environment of choice is $environment"
+            if [[ -z "$environment" ]]; then
+              echo "No environment specified."
+            else
+              echo "Environment of choice is $environment"
+              # Trigger job here
+            fi
           else
-            echo "PR was merged but does not contain &deploy."
+            echo "PR was merged but does not contain @deploy."
           fi
+          
