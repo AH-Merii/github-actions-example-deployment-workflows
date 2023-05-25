@@ -18,9 +18,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - uses: actions/checkout
       - name: deploy
         if: env.ENVIRONMENT
-        uses: actions/checkout
         uses: ./.github/actions/reusable-deployment-workflow.yml
         with:
           environment: env.ENVIRONMENT
