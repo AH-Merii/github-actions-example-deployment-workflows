@@ -44,8 +44,7 @@ jobs:
           fi
 
       - name: deploy
-        uses: ./.github/workflows
+        if: env.ENVIRONMENT
+        uses: ./.github/workflows/reusable-deployment-workflow.yml
         with:
-          workflow: reusable-deployment-workflow.yml
-          inputs:
-            environment=env.ENVIRONMENT
+          environment=env.ENVIRONMENT
