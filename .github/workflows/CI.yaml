@@ -35,14 +35,14 @@ jobs:
           fi
 
           if [ -n "$environment" ]; then
-            echo "::set-env name=ENVIRONMENT::$environment"
+            echo "ENVIRONMENT=$environment" >> $GITHUB_ENV
             echo "Environment: $environment"
           else
             echo "Environment is not set"
           fi
 
       - name: set profile
-        # if: ${{ steps.get_env.outputs.environment }}
+        if: $ENVIRONMENT
         run: echo "AWS_PROFILE=$ENVIRONMENT" >> $GITHUB_ENV
       
       - name: check profile
