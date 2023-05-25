@@ -43,18 +43,14 @@ jobs:
             echo "Environment is not set"
           fi
 
-      - name: set profile
-        if: env.ENVIRONMENT
-        run: echo "AWS_PROFILE=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
-      
-      - name: check profile
-        if: env.ENVIRONMENT
-        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE }}"
-      
-      - name: init terraform
-        if: env.ENVIRONMENT
-        run: echo "terraform init"
+jobs:
+  detect_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: run terraform
-        if: env.ENVIRONMENT
-        run: echo "terraform apply -auto-approve"
+      - name: deploy
+        uses: ./.github/workflows/reusable-deployment-workflow.yml
+        inputs:
+          environment=env.ENVIRONMENT
