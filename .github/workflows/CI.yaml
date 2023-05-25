@@ -34,8 +34,14 @@ jobs:
             echo "PR was merged but does not contain ${{ env.DEPLOY_KEYWORD }}."
           fi
 
+          if [ -n "$environment"]; then
+            echo "Environment: $environment"
+          else
+            echo "Environment is not set"
+          fi
+
       - name: set profile
-        if: ${{ steps.get_env.outputs.environment }}
+        # if: ${{ steps.get_env.outputs.environment }}
         run: echo AWS_PROFILE=${{ steps.get_env.outputs.environment }} >> $GITHUB_ENV
       
       - name: check profile
