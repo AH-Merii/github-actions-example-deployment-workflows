@@ -20,7 +20,7 @@ jobs:
           function get_environment() {
             local environment=$(echo "$1" | grep -oP "(?<=${{ env.DEPLOY_KEYWORD }}:)[^ ]+")
             if [[ -z "$environment" ]]; then
-              echo "No environment specified."
+              return 1
             else
               echo "$environment"
             fi
@@ -35,6 +35,7 @@ jobs:
           fi
 
           if [ -n "$environment" ]; then
+            echo "::set-env name=ENVIRONMENT::$environment"
             echo "Environment: $environment"
           else
             echo "Environment is not set"
@@ -42,7 +43,7 @@ jobs:
 
       - name: set profile
         # if: ${{ steps.get_env.outputs.environment }}
-        run: echo "AWS_PROFILE=${{ steps.get_env.outputs.environment }}" >> $GITHUB_ENV
+        run: echo "AWS_PROFILE=$ENVIRONMENT" >> $GITHUB_ENV
       
       - name: check profile
         if: success()
