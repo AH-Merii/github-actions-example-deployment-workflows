@@ -20,7 +20,9 @@ jobs:
           function get_environment() {
             local environment=$(echo "$1" | grep -oP "(?<=${{ env.DEPLOY_KEYWORD }}:)[^ ]+")
             if [[ -z "$environment" ]]; then
-              return 1
+              echo Deployment keyword ${{ env.DEPLOY_KEYWORD }}: provided but no environment was provided.
+              echo Example: ${{ env.DEPLOY_KEYWORD }}:<your_environment_name>
+              exit 1
             else
               echo "$environment"
             fi
