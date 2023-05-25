@@ -43,8 +43,8 @@ jobs:
             echo "Environment is not set"
           fi
 
-      - name: deploy
-        if: env.ENVIRONMENT
-        uses: ./.github/workflows/reusable-deployment-workflow.yml
-        with:
-          environment: env.ENVIRONMENT
+  deploy:
+    if: env.ENVIRONMENT
+    uses: ./.github/workflows/reusable-deployment-workflow.yml
+    with:
+      environment: env.ENVIRONMENT
