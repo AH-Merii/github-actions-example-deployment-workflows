@@ -20,6 +20,7 @@ jobs:
 
       - name: deploy
         if: env.ENVIRONMENT
+        uses: actions/checkout
         uses: ./.github/workflows/reusable-deployment-workflow.yml
         with:
           environment: env.ENVIRONMENT
