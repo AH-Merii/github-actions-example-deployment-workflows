@@ -34,7 +34,18 @@ jobs:
             echo "PR was merged but does not contain ${{ env.DEPLOY_KEYWORD }}."
           fi
 
-          if [[ -n "$environment" ]]; then
-            echo "Environment: $environment"
-            # Trigger job here
-          fi
+      - name: set profile
+        if: ${{ steps.get_env.outputs.environment }}
+        run: echo AWS_PROFILE=${{ steps.get_env.outputs.environment }} >> $GITHUB_ENV
+      
+      - name: check profile
+        if: success()
+        run: echo "aws s3 ls --profile=$AWS_PROFILE
+      
+      - name: init terraform
+        if: success()
+        run: echo "terraform init"
+
+      - name: run terraform
+        if: success()
+        run: echo "terraform apply -auto-approve"
