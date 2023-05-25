@@ -47,4 +47,4 @@ jobs:
         if: env.ENVIRONMENT
         uses: ./.github/workflows/reusable-deployment-workflow.yml
         with:
-          environment=env.ENVIRONMENT
+          environment : env.ENVIRONMENT
