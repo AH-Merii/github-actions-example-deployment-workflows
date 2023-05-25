@@ -19,6 +19,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: deploy
-        uses: ./.github/workflows/reusable-deployment-workflow.yml
-        inputs:
-          environment=env.ENVIRONMENT
+        uses: ./.github/workflows
+        with:
+          workflow: reusable-deployment-workflow.yml
+          inputs:
+            environment=env.ENVIRONMENT
