@@ -43,11 +43,11 @@ jobs:
 
       - name: set profile
         if: env.ENVIRONMENT
-        run: echo "AWS_PROFILE=env.ENVIRONMENT" >> $GITHUB_ENV
+        run: echo "AWS_PROFILE=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
       
       - name: check profile
         if: success()
-        run: echo "aws s3 ls --profile=env.AWS_PROFILE"
+        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE" }}
       
       - name: init terraform
         if: success()
