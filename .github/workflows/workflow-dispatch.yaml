@@ -1,0 +1,31 @@
+name: Manual deployment using workflow_dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The environment which the application will be deployed on'
+        required: true
+        default: 'development'
+
+jobs:
+  check-for-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: set profile
+        run: echo "export AWS_PROFILE=${{ github.event.inputs.environment }}"
+      
+      - name: check profile
+        run: echo "aws s3 ls --profile=${{ github.event.inputs.environment }}"
+      
+      - name: init terraform
+        run: echo "terraform init"
+
+      - name: run terraform
+        run: |
+          echo "export AWS_PROFILE=${{ github.event.inputs.environment }}"
+          echo "terraform plan"
