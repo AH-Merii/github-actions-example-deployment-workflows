@@ -1,0 +1,35 @@
+name: Deploy to staging by detecting changes in directory
+
+env:
+  ENVIRONMENT: staging
+
+on:
+  pull_request:
+    types: [closed]
+    branches: 
+      - main
+    paths:
+      - "staging/**"
+
+jobs:
+  detect_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: set profile
+        if: env.ENVIRONMENT
+        run: echo "AWS_PROFILE=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
+      
+      - name: check profile
+        if: env.AWS_PROFILE
+        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE }}"
+      
+      - name: init terraform
+        if: env.ENVIRONMENT
+        run: echo "terraform init"
+
+      - name: run terraform
+        if: env.ENVIRONMENT
+        run: echo "terraform apply -auto-approve"
