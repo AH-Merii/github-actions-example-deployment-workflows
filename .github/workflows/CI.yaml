@@ -43,7 +43,6 @@ jobs:
             echo "Environment is not set"
           fi
 
-      - uses: actions/checkout@v3.5.2
       - name: deploy
         if: env.ENVIRONMENT
         uses: ./.github/actions/reusable-deployment-workflow.yml
