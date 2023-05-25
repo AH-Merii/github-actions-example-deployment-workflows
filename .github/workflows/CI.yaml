@@ -47,7 +47,7 @@ jobs:
       
       - name: check profile
         if: success()
-        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE" }}
+        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE }}"
       
       - name: init terraform
         if: success()
