@@ -1,0 +1,33 @@
+name: reusable workflow for deployment to environment of choice
+
+env:
+  ENVIRONMENT: development
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: name of deployment environment
+        required: true
+
+jobs:
+  detect_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: set profile
+        if: ${{ github.event.inputs.environment }}
+        run: echo "AWS_PROFILE=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+      
+      - name: check profile
+        if: env.AWS_PROFILE
+        run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE }}"
+      
+      - name: init terraform
+        if: ${{ github.event.inputs.environment }}
+        run: echo "terraform init"
+
+      - name: run terraform
+        if: ${{ github.event.inputs.environment }}
+        run: echo "terraform apply -auto-approve"
