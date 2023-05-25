@@ -42,11 +42,11 @@ jobs:
 
       - name: set profile
         # if: ${{ steps.get_env.outputs.environment }}
-        run: echo AWS_PROFILE=${{ steps.get_env.outputs.environment }} >> $GITHUB_ENV
+        run: echo "AWS_PROFILE=${{ steps.get_env.outputs.environment }}" >> $GITHUB_ENV
       
       - name: check profile
         if: success()
-        run: echo "aws s3 ls --profile=$AWS_PROFILE
+        run: echo "aws s3 ls --profile=$AWS_PROFILE"
       
       - name: init terraform
         if: success()
