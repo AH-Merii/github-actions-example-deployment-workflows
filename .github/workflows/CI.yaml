@@ -34,7 +34,7 @@ jobs:
             echo "PR was merged but does not contain ${{ env.DEPLOY_KEYWORD }}."
           fi
 
-          if [ -n "$environment"]; then
+          if [ -n "$environment" ]; then
             echo "Environment: $environment"
           else
             echo "Environment is not set"
