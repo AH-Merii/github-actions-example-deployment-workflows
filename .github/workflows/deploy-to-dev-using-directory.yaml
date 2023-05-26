@@ -15,5 +15,5 @@ jobs:
   deploy:
     uses: ./.github/workflows/reusable-deployment-workflow.yml
     with:
-      environment:$ENVIRONMENT
+      environment: $ENVIRONMENT
       runs_on: "ubuntu-latest"
