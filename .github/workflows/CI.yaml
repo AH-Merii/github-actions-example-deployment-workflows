@@ -40,12 +40,14 @@ jobs:
             echo "ENVIRONMENT=$environment" >> $GITHUB_ENV
             echo "Environment: $environment"
           else
+            echo "ENVIRONMENT=''" >> $GITHUB_ENV
             echo "Environment is not set"
           fi
 
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ env.ENVIRONMENT }}
+    needs: check-for-deploy
+    if: ${{ env.ENVIRONMENT != ''}}
     uses: ./.github/workflows/reusable-deployment-workflow.yml
     with:
       environment: env.ENVIRONMENT
