@@ -14,7 +14,7 @@ on:
 
 jobs:
   detect_changes:
-    runs-on: ${{ github.event.inputs.runs_on}}
+    runs-on: ${{ github.event.inputs.runs_on }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
