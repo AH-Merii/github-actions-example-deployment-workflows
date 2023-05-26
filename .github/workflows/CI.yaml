@@ -50,5 +50,5 @@ jobs:
     if: ${{ env.ENVIRONMENT != ''}}
     uses: ./.github/workflows/reusable-deployment-workflow.yml
     with:
-      environment: env.ENVIRONMENT
-      runs_on: ubuntu-latest
+      environment: "${{ env.ENVIRONMENT }}"
+      runs_on: "ubuntu-latest"
