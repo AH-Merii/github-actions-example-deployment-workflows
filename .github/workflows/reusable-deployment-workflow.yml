@@ -6,10 +6,13 @@ on:
       environment:
         description: name of deployment environment
         required: true
+      runs_on:
+        description: name of runner that the workflow will run on
+        required: true
 
 jobs:
   detect_changes:
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event.inputs.runs_on}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
