@@ -47,8 +47,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: check-for-deploy
-    if: ${{ env.ENVIRONMENT != ''}}
+    if: "${{ env.ENVIRONMENT != ''}}"
     uses: ./.github/workflows/reusable-deployment-workflow.yml
     with:
-      environment: "${{ env.ENVIRONMENT }}"
+      environment: env.ENVIRONMENT
       runs_on: "ubuntu-latest"
