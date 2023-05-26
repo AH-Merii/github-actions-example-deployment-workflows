@@ -14,23 +14,23 @@ on:
 
 jobs:
   detect_changes:
-    runs-on: ${{ github.event.inputs.runs_on }}
+    runs-on: ${{ inputs.runs_on }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: set profile
-        if: ${{ github.event.inputs.environment }}
-        run: echo "AWS_PROFILE=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        if: ${{ inputs.environment }}
+        run: echo "AWS_PROFILE=${{ inputs.environment }}" >> $GITHUB_ENV
       
       - name: check profile
         if: env.AWS_PROFILE
         run: echo "aws s3 ls --profile=${{ env.AWS_PROFILE }}"
       
       - name: init terraform
-        if: ${{ github.event.inputs.environment }}
+        if: ${{ inputs.environment }}
         run: echo "terraform init"
 
       - name: run terraform
-        if: ${{ github.event.inputs.environment }}
+        if: ${{ inputs.environment }}
         run: echo "terraform apply -auto-approve"
